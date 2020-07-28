@@ -28,10 +28,9 @@ func printVersion() {
 }
 
 func printWordList(name string) {
-	list, ok := wordlists.Lists[name]
-	if !ok {
-		fmt.Fprintf(os.Stderr, "Error: Do not have list %s.\n", name)
-		os.Exit(-1)
+	list, err := wordlists.Wordlist(name)
+	if err != nil {
+		log.Fatalf("%v. Use --version to see valid wordlists.", err)
 	}
 	for _, word := range list {
 		fmt.Println(word)
@@ -62,6 +61,7 @@ func main() {
 		underscoreFlag                               bool
 		listFlag, printListFlag                      string
 	)
+	log.SetFlags(0)
 	flag.Usage = func() { fmt.Fprintf(os.Stderr, "%s\n", usage) }
 	flag.BoolVar(&versionFlag, "version", false, "print version and information about installed word lists")
 	flag.IntVar(&numFlag, "n", 6, "number of words in passphrase")
@@ -75,7 +75,7 @@ func main() {
 	flag.BoolVar(&specialFlag, "special", false, "include upper case, digit, and punctuation character")
 	flag.BoolVar(&underscoreFlag, "u", false, "replace spaces in word with underscores")
 	flag.BoolVar(&underscoreFlag, "underscore", false, "replace spaces in word with underscores")
-	flag.StringVar(&listFlag, "list", "Number", "word list to use (case insensitive, use --version to see installed word lists)")
+	flag.StringVar(&listFlag, "list", "large", "word list to use (case insensitive, use --version to see installed word lists)")
 	flag.StringVar(&printListFlag, "print", "", "word list to print")
 	flag.Parse()
 
@@ -85,9 +85,9 @@ func main() {
 	case versionFlag:
 		printVersion()
 	default:
-		list, ok := wordlists.Lists[listFlag]
-		if !ok {
-			log.Fatalf("Could not find word list '%s'. Use --version to see word list options.")
+		list, err := wordlists.Wordlist(listFlag)
+		if err != nil {
+			log.Fatalf("%v. Use --version to see valid wordlists.", err)
 		}
 		phrase := []string{}
 		max := big.NewInt(int64(len(list)))
