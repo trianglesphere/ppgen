@@ -30,7 +30,7 @@ func main() {
 		defer o.Flush()
 		fmt.Fprintln(o, "package wordlists\n")
 		fmt.Fprintf(o, "var %s = []string{", strings.Title(name))
-		for i := 0; len(words) >= 2 && i < len(words)-2; i++ {
+		for i := 0; len(words) >= 1 && i < len(words)-1; i++ {
 			fmt.Fprintf(o, "\"%s\",", words[i])
 		}
 		fmt.Fprintf(o, "\"%s\"}\n", words[len(words)-1])
