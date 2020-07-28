@@ -28,7 +28,7 @@ func printVersion() {
 }
 
 func printWordList(name string) {
-	list, err := wordlists.Wordlist(name)
+	list, err := wordlists.List(name)
 	if err != nil {
 		log.Fatalf("%v. Use --version to see valid wordlists.", err)
 	}
@@ -85,7 +85,7 @@ func main() {
 	case versionFlag:
 		printVersion()
 	default:
-		list, err := wordlists.Wordlist(listFlag)
+		list, err := wordlists.List(listFlag)
 		if err != nil {
 			log.Fatalf("%v. Use --version to see valid wordlists.", err)
 		}

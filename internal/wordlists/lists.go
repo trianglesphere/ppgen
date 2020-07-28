@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-type List int
+type ListID int
 
 const (
-	EFFLarge List = iota
+	EFFLarge ListID = iota
 	EFFShort
 	EFFPrefix
 	Punct
@@ -16,12 +16,12 @@ const (
 	Digit
 )
 
-func (l List) String() string {
+func (l ListID) String() string {
 	return [...]string{"EFF Large", "EFF Short", "EFF Prefix", "Punctuation", "Upper Case", "Number"}[l]
 }
 
 // Lists contains the available wordlists and their display name.
-var Lists = map[List][]string{
+var Lists = map[ListID][]string{
 	EFFLarge:  Eff_large_list,
 	EFFShort:  Eff_short_list,
 	EFFPrefix: Eff_short_prefix_list,
@@ -31,7 +31,7 @@ var Lists = map[List][]string{
 }
 
 // Typeable name to word list
-var Aliases = map[string]List{
+var Aliases = map[string]ListID{
 	"eff large":   EFFLarge,
 	"large":       EFFLarge,
 	"eff short":   EFFShort,
@@ -47,7 +47,7 @@ var Aliases = map[string]List{
 	"digits":      Digit,
 }
 
-func Wordlist(name string) ([]string, error) {
+func List(name string) ([]string, error) {
 	list, ok := Aliases[strings.ToLower(name)]
 	if !ok {
 		return nil, fmt.Errorf("'%s' is not a valid word list name", name)
