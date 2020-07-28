@@ -8,6 +8,7 @@ import (
 	"math"
 	"math/big"
 	"os"
+	"sort"
 	"strings"
 	"text/tabwriter"
 
@@ -21,8 +22,17 @@ func printVersion() {
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 	fmt.Fprintln(w, "List\tLength\tEntropy/word")
-	for name, list := range wordlists.Lists {
-		fmt.Fprintf(w, "%s\t%d\t%0.1f\n", name, len(list), math.Log2(float64(len(list))))
+	ids := make([]int, 0, len(wordlists.Lists))
+	for id := range wordlists.Lists {
+		ids = append(ids, int(id))
+
+	}
+	sort.Ints(ids)
+	for id := range ids {
+		listID := wordlists.ListID(id)
+		list := wordlists.Lists[listID]
+		bits := math.Log2(float64(len(list)))
+		fmt.Fprintf(w, "%s\t%d\t%0.1f\n", listID, len(list), bits)
 	}
 	w.Flush()
 }
