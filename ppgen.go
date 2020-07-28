@@ -4,20 +4,25 @@ import (
 	"crypto/rand"
 	"flag"
 	"fmt"
+	"log"
 	"math"
 	"math/big"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	"internal/wordlists"
 )
 
-func printEntropy() {
+func printVersion() {
+	fmt.Println("Version 0 of ppgen.")
+	fmt.Println("Author: Joshua Gutow")
+	fmt.Println("Use --print LIST_NAME to print the specific list.")
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
-	fmt.Fprintln(w, "List\tBits of entropy per word")
+	fmt.Fprintln(w, "List\tLength\tEntropy/word")
 	for name, list := range wordlists.Lists {
-		fmt.Fprintf(w, "%s\t%0.1f\n", name, math.Log2(float64(len(list))))
+		fmt.Fprintf(w, "%s\t%d\t%0.1f\n", name, len(list), math.Log2(float64(len(list))))
 	}
 	w.Flush()
 }
@@ -51,46 +56,51 @@ Options:
 
 func main() {
 	var (
-		entropy                                  bool
-		num                                      int
-		upper, underscore, digit, punct, special bool
-		list, printList                          string
+		versionFlag                                  bool
+		numFlag                                      int
+		upperFlag, digitFlag, punctFlag, specialFlag bool
+		underscoreFlag                               bool
+		listFlag, printListFlag                      string
 	)
-	// Usage
-	// ppgen --entropy
-	// ppgen --print LIST
-	// ppgen [-n 10] [--list LIST] [-s] [-p] [-d] [-u]
 	flag.Usage = func() { fmt.Fprintf(os.Stderr, "%s\n", usage) }
-	flag.BoolVar(&entropy, "entropy", false, "print per word entropy for each list")
-	flag.IntVar(&num, "n", 6, "number of words in passphrase")
-	flag.IntVar(&num, "number", 6, "number of words in passphrase")
-	flag.BoolVar(&upper, "upper", false, "include upper case letter")
-	flag.BoolVar(&digit, "d", false, "include digit (0-9)")
-	flag.BoolVar(&digit, "digit", false, "include digit (0-9)")
-	flag.BoolVar(&punct, "p", false, "include punctuation characters")
-	flag.BoolVar(&punct, "punctuation", false, "include punctuation characters")
-	flag.BoolVar(&special, "s", false, "include upper case, digit, and punctuation character to comply with password requirements")
-	flag.BoolVar(&special, "special", false, "include upper case, digit, and punctuation character to comply with password requirements")
-	flag.BoolVar(&underscore, "u", false, "replace spaces in word with underscores")
-	flag.BoolVar(&underscore, "underscore", false, "replace spaces in word with underscores")
-	flag.StringVar(&list, "list", "Number", "word list to use (case insensitive, use --version to see installed word lists & aliases)")
-	flag.StringVar(&printList, "print", "", "word list to print")
+	flag.BoolVar(&versionFlag, "version", false, "print version and information about installed word lists")
+	flag.IntVar(&numFlag, "n", 6, "number of words in passphrase")
+	flag.IntVar(&numFlag, "number", 6, "number of words in passphrase")
+	flag.BoolVar(&upperFlag, "upper", false, "include upper case letter")
+	flag.BoolVar(&digitFlag, "d", false, "include digit (0-9)")
+	flag.BoolVar(&digitFlag, "digit", false, "include digit (0-9)")
+	flag.BoolVar(&punctFlag, "p", false, "include punctuation characters")
+	flag.BoolVar(&punctFlag, "punctuation", false, "include punctuation characters")
+	flag.BoolVar(&specialFlag, "s", false, "include upper case, digit, and punctuation character")
+	flag.BoolVar(&specialFlag, "special", false, "include upper case, digit, and punctuation character")
+	flag.BoolVar(&underscoreFlag, "u", false, "replace spaces in word with underscores")
+	flag.BoolVar(&underscoreFlag, "underscore", false, "replace spaces in word with underscores")
+	flag.StringVar(&listFlag, "list", "Number", "word list to use (case insensitive, use --version to see installed word lists)")
+	flag.StringVar(&printListFlag, "print", "", "word list to print")
 	flag.Parse()
 
 	switch {
-	case entropy:
-		printEntropy()
-		os.Exit(0)
-	case printList != "":
-		printWordList(printList)
-		os.Exit(0)
-	// case version
+	case printListFlag != "":
+		printWordList(printListFlag)
+	case versionFlag:
+		printVersion()
 	default:
-		// verify list
-	}
-	wlist := wordlists.Lists[list]
-	for i := 0; i < num; i++ {
-		n, _ := rand.Int(rand.Reader, big.NewInt(int64(num)))
-		fmt.Printf("%s ", wlist[n.Int64()])
+		list, ok := wordlists.Lists[listFlag]
+		if !ok {
+			log.Fatalf("Could not find word list '%s'. Use --version to see word list options.")
+		}
+		phrase := []string{}
+		max := big.NewInt(int64(len(list)))
+		for i := 0; i < numFlag; i++ {
+			n, _ := rand.Int(rand.Reader, max)
+			phrase = append(phrase, list[n.Int64()])
+		}
+		var separator string
+		if underscoreFlag {
+			separator = "_"
+		} else {
+			separator = " "
+		}
+		fmt.Println(strings.Join(phrase, separator))
 	}
 }
