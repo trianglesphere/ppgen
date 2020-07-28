@@ -29,7 +29,7 @@ func main() {
 		o := bufio.NewWriter(out)
 		defer o.Flush()
 		fmt.Fprintln(o, "package wordlists\n")
-		fmt.Fprintf(o, "var %s = []string{", strings.Title(name))
+		fmt.Fprintf(o, "var %s_list = []string{", strings.Title(name))
 		for i := 0; len(words) >= 1 && i < len(words)-1; i++ {
 			fmt.Fprintf(o, "\"%s\",", words[i])
 		}
