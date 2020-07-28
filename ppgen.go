@@ -95,6 +95,10 @@ func main() {
 			n, _ := rand.Int(rand.Reader, max)
 			phrase = append(phrase, list[n.Int64()])
 		}
+		extra, ok := extra(specialFlag, upperFlag, digitFlag, punctFlag)
+		if ok {
+			phrase = append(phrase, extra)
+		}
 		var separator string
 		if underscoreFlag {
 			separator = "_"
@@ -103,4 +107,24 @@ func main() {
 		}
 		fmt.Println(strings.Join(phrase, separator))
 	}
+}
+
+func extra(special, upper, digit, punct bool) (string, bool) {
+	var extra strings.Builder
+	if upper || special {
+		list, _ := wordlists.List("upper case")
+		n, _ := rand.Int(rand.Reader, big.NewInt(int64(len(list))))
+		extra.WriteString(list[n.Int64()])
+	}
+	if digit || special {
+		list, _ := wordlists.List("number")
+		n, _ := rand.Int(rand.Reader, big.NewInt(int64(len(list))))
+		extra.WriteString(list[n.Int64()])
+	}
+	if punct || special {
+		list, _ := wordlists.List("punctuation")
+		n, _ := rand.Int(rand.Reader, big.NewInt(int64(len(list))))
+		extra.WriteString(list[n.Int64()])
+	}
+	return extra.String(), special || upper || digit || punct
 }
