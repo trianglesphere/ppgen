@@ -33,6 +33,22 @@ func printWordList(name string) {
 	}
 }
 
+const usage = `Usage:
+	ppgen --version
+	ppgen --print LIST_NAME
+	ppgen [-n NUM_WORDS]  [-l LIST_NAME] [-u] [-s] [-p] [-d] [--upper]
+
+Options:
+	--version
+	--print LIST_NAME
+	--list LIST_NAME
+	-n, --number
+	-u, --underscore
+	-s, --special
+	-p, --punctuation
+	-d, --digit
+	--upper`
+
 func main() {
 	var (
 		entropy                                  bool
@@ -44,6 +60,7 @@ func main() {
 	// ppgen --entropy
 	// ppgen --print LIST
 	// ppgen [-n 10] [--list LIST] [-s] [-p] [-d] [-u]
+	flag.Usage = func() { fmt.Fprintf(os.Stderr, "%s\n", usage) }
 	flag.BoolVar(&entropy, "entropy", false, "print per word entropy for each list")
 	flag.IntVar(&num, "n", 6, "number of words in passphrase")
 	flag.IntVar(&num, "number", 6, "number of words in passphrase")
