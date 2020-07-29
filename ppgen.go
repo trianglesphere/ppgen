@@ -18,7 +18,7 @@ import (
 func printVersion() {
 	fmt.Println("Version 0 of ppgen.")
 	fmt.Println("Author: Joshua Gutow")
-	fmt.Println("Use --print LIST_NAME to print the specific list.")
+	fmt.Println("Use --print LIST_NAME to print the specified list.")
 	w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 	fmt.Fprintln(w, "List\tLength\tEntropy/word")
@@ -53,15 +53,15 @@ const usage = `Usage:
 	ppgen [-n NUM_WORDS]  [-l LIST_NAME] [-u] [-s] [-p] [-d] [--upper]
 
 Options:
-	--version
-	--print LIST_NAME
-	--list LIST_NAME
-	-n, --number
-	-u, --underscore
-	-s, --special
-	-p, --punctuation
-	-d, --digit
-	--upper`
+	--version		Prints installed wordlists and aliases.
+	--print LIST_NAME	Prints specified wordlists.
+	--list LIST_NAME	Wordlist to use. Defaults to EFF Large.
+	-n, --number		Number of words. Defaults to 6.
+	-u, --underscore	Separate words with underscores instead of spaces.
+	-s, --special		Implies --punctuation, --digit, and --upper.
+	-p, --punctuation	Add a punctuation character to the end of phrase.
+	-d, --digit		Add a number to the end of the phrase.
+	--upper			Add an upper case character to the end of the phrase.`
 
 func main() {
 	var (
