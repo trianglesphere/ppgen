@@ -16,7 +16,7 @@ import (
 )
 
 func printVersion() {
-	fmt.Println("Version 0 of ppgen.")
+	fmt.Println("Version 0.0.1 of ppgen.")
 	fmt.Println("Author: Joshua Gutow")
 	fmt.Println("Use --print LIST_NAME to print the specified list.")
 	// Invert aliases map
