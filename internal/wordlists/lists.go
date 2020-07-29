@@ -33,10 +33,13 @@ var Lists = map[ListID][]string{
 // Typeable name to word list
 var Aliases = map[string]ListID{
 	"eff large":   EFFLarge,
+	"eff_large":   EFFLarge,
 	"large":       EFFLarge,
 	"eff short":   EFFShort,
+	"eff_short":   EFFShort,
 	"short":       EFFShort,
 	"eff prefix":  EFFPrefix,
+	"eff_prefix":  EFFPrefix,
 	"prefix":      EFFPrefix,
 	"punctuation": Punct,
 	"punct":       Punct,
