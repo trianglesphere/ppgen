@@ -67,7 +67,7 @@ Options:
 	--version		Prints installed wordlists and aliases.
 	--print LIST_NAME	Prints specified wordlists.
 	--list LIST_NAME	Wordlist to use. Defaults to EFF Large. Case insensitive.
-	-n, --number		Number of words. Defaults to 6.
+	-n, --number N		Number of words. Defaults to 6.
 	-u, --underscore	Separate words with underscores instead of spaces.
 	-s, --special		Implies --punctuation, --digit, and --upper.
 	-p, --punctuation	Add a punctuation character to the end of phrase.
