@@ -19,20 +19,28 @@ func printVersion() {
 	fmt.Println("Version 0 of ppgen.")
 	fmt.Println("Author: Joshua Gutow")
 	fmt.Println("Use --print LIST_NAME to print the specified list.")
-	w := new(tabwriter.Writer)
-	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
-	fmt.Fprintln(w, "List\tLength\tEntropy/word")
+	// Invert aliases map
+	aliases := make(map[wordlists.ListID][]string)
+	for alias, id := range wordlists.Aliases {
+		aliases[id] = append(aliases[id], alias)
+	}
+	// Sort ids so the wordlists table ordering is stable.
 	ids := make([]int, 0, len(wordlists.Lists))
 	for id := range wordlists.Lists {
 		ids = append(ids, int(id))
 
 	}
 	sort.Ints(ids)
+	// Print
+	w := new(tabwriter.Writer)
+	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+	fmt.Fprintln(w, "List\tLength\tEntropy/word\tAliases (case insensitive)")
 	for id := range ids {
 		listID := wordlists.ListID(id)
 		list := wordlists.Lists[listID]
 		bits := math.Log2(float64(len(list)))
-		fmt.Fprintf(w, "%s\t%d\t%0.1f\n", listID, len(list), bits)
+		aliasesClean := strings.Join(aliases[listID], ", ")
+		fmt.Fprintf(w, "%s\t%d\t%0.1f\t%s\n", listID, len(list), bits, aliasesClean)
 	}
 	w.Flush()
 }
@@ -55,7 +63,7 @@ const usage = `Usage:
 Options:
 	--version		Prints installed wordlists and aliases.
 	--print LIST_NAME	Prints specified wordlists.
-	--list LIST_NAME	Wordlist to use. Defaults to EFF Large.
+	--list LIST_NAME	Wordlist to use. Defaults to EFF Large. Case insensitive.
 	-n, --number		Number of words. Defaults to 6.
 	-u, --underscore	Separate words with underscores instead of spaces.
 	-s, --special		Implies --punctuation, --digit, and --upper.
