@@ -24,6 +24,9 @@ func printVersion() {
 	for alias, id := range wordlists.Aliases {
 		aliases[id] = append(aliases[id], alias)
 	}
+	for _, aliasList := range aliases {
+		sort.Strings(aliasList)
+	}
 	// Sort ids so the wordlists table ordering is stable.
 	ids := make([]int, 0, len(wordlists.Lists))
 	for id := range wordlists.Lists {
@@ -39,8 +42,8 @@ func printVersion() {
 		listID := wordlists.ListID(id)
 		list := wordlists.Lists[listID]
 		bits := math.Log2(float64(len(list)))
-		aliasesClean := strings.Join(aliases[listID], ", ")
-		fmt.Fprintf(w, "%s\t%d\t%0.1f\t%s\n", listID, len(list), bits, aliasesClean)
+		aliasList := strings.Join(aliases[listID], ", ")
+		fmt.Fprintf(w, "%s\t%d\t%0.1f\t%s\n", listID, len(list), bits, aliasList)
 	}
 	w.Flush()
 }
