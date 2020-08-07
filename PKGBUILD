@@ -8,7 +8,7 @@ arch=('x86_64')
 license=('GPL')
 makedepends=('go')
 source=("$pkgname-$pkgver.tar.gz")
-md5sums=('78ae1d037057f724da4c96e4c8bbcd73')
+md5sums=('82d7ace62a84bc01eb64f7794287835b')
 
 prepare(){
   cd "$SRCDIR"
