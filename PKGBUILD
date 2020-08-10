@@ -1,7 +1,7 @@
 # Maintainer: Joshua Gutow <jbgutow@gmail.com>
 pkgname=ppgen
 pkgver=0.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc='Pass phrase generator.'
 arch=('x86_64')
 # url=""
@@ -9,7 +9,7 @@ license=('GPL')
 makedepends=('go')
 depends=('glibc')
 source=("$pkgname-$pkgver.tar.gz")
-md5sums=('82d7ace62a84bc01eb64f7794287835b')
+md5sums=('d7a67916314166627b761bfe7ce579af')
 
 prepare(){
   cd "$SRCDIR"
