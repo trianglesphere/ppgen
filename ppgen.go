@@ -96,6 +96,7 @@ func main() {
 	flag.BoolVar(&specialFlag, "special", false, "include upper case, digit, and punctuation character")
 	flag.BoolVar(&underscoreFlag, "u", false, "replace spaces in word with underscores")
 	flag.BoolVar(&underscoreFlag, "underscore", false, "replace spaces in word with underscores")
+	flag.StringVar(&listFlag, "l", "large", "word list to use (case insensitive, use --version to see installed word lists)")
 	flag.StringVar(&listFlag, "list", "large", "word list to use (case insensitive, use --version to see installed word lists)")
 	flag.StringVar(&printListFlag, "print", "", "word list to print")
 	flag.Parse()
