@@ -3,7 +3,7 @@
 Version 0.1.0 of ppgen. Written by Joshua Gutow.
 
 
-Usage
+## Usage
 ```
 ppgen [-n NUM_WORDS]  [-l LIST_NAME] [-u] [-s] [-p] [-d] [--upper]
 ```
@@ -22,3 +22,7 @@ Punctuation	26	4.7		punct, punctuation
 Upper Case	26	4.7		upper, upper case
 Number		10	3.3		digits, number, numbers
 ```
+
+## License
+This software in licensed under the GNU General Public License Version 3.
+It is not licensed for any later version of the GNU General Public License.
