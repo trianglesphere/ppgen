@@ -16,9 +16,10 @@ import (
 )
 
 func printVersion() {
-	fmt.Println("Version 0.0.1 of ppgen.")
+	fmt.Println("Version 0.1.0 of ppgen.")
 	fmt.Println("Author: Joshua Gutow")
 	fmt.Println("Use --print LIST_NAME to print the specified list.")
+	fmt.Println("EFF Wordlists created by the EFF (https://www.eff.org/dice). Used under the CC BY 3.0 US license.")
 	// Invert aliases map
 	aliases := make(map[wordlists.ListID][]string)
 	for alias, id := range wordlists.Aliases {
