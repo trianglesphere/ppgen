@@ -12,7 +12,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"internal/wordlists"
+	"xyzc.dev/go/ppgen/wordlists"
 )
 
 func printVersion() {

@@ -1,6 +1,3 @@
-module ppgen
+module xyzc.dev/go/ppgen
 
-go 1.14
-
-require internal/wordlists v0.0.0
-replace internal/wordlists => ./internal/wordlists
+go 1.15

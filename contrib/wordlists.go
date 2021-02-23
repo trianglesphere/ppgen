@@ -24,7 +24,7 @@ func main() {
 			panic(err)
 		}
 		name := strings.TrimSuffix(path.Base(filename), path.Ext(filename))
-		out, err := os.Create("../internal/wordlists/" + name + ".go")
+		out, err := os.Create("../wordlists/" + name + ".go")
 		defer out.Close()
 		o := bufio.NewWriter(out)
 		defer o.Flush()
