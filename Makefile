@@ -1,8 +1,9 @@
 all:
 	go build
 
-ver=0.0.1
-rel=3
+package-arch:
+	./contrib/build_tarball.sh
+
 clean:
 	go clean
-	rm -rf src/ pkg/ ppgen-$(ver).tar.gz ppgen-$(ver)-$(rel)-x86_64.pkg.tar.zst
+	rm -rf build
