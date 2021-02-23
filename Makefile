@@ -1,8 +1,8 @@
 all:
 	go build
 
-package-arch:
-	./contrib/build_tarball.sh
+tarball:
+	./contrib/create_tarball.sh
 
 clean:
 	go clean
